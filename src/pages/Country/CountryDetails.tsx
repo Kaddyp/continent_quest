@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import getSymbolFromCurrency from 'currency-symbol-map';
 import CountryFlag from "../../components/CountryFlag";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const GET_COUNTRY = gql`
   query GetCountry($code: ID!) {
@@ -31,15 +33,15 @@ const GET_COUNTRY = gql`
   }
 `;
 
-const CountryDetails: React.FC = () => {
+const CountryDetailsPage: React.FC = () => {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_COUNTRY, {
     variables: { code },
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (loading) return <Loading />;
+  if (error) return <Error message={error.message} />;
 
   const country = data.country;
 
@@ -54,12 +56,7 @@ const CountryDetails: React.FC = () => {
       <div className="relative mt-6 flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
         <div className="p-6">
           <div className="py-4 flex items-center">
-            <span className="text-2xl p-2">
-              {/* <img
-                src={`https://flagcdn.com/w320/${country.code.toLowerCase()}.png`}
-                alt={`${country.name} flag`}
-                className="w-8 h-8"
-              /> */}
+            <span className="text-2xl p-2">              
               <CountryFlag countryCode={country.code} width="w-8" height="h-8"/>
             </span>
           </div>
@@ -88,21 +85,6 @@ const CountryDetails: React.FC = () => {
             <span className="font-semibold text-gray-700">Phone Code:</span>{" "}
             +{country.phone} ({country.phones.join(', ')})
           </p>
-
-          {/* Subdivisions */}
-          {/* <div>
-              <h3 className="font-semibold text-gray-700 mb-2">Subdivisions</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {country.subdivisions && country.subdivisions.map((subdivision:any) => (
-                  <span
-                    key={subdivision.name}
-                    className="text-sm px-3 py-1 bg-gray-100 text-gray-700 rounded-md shadow-sm"
-                  >
-                    {subdivision.name}
-                  </span>
-                ))}
-              </div>
-            </div> */}
         </div>
         <div className="p-6 pt-0">
           <a
@@ -137,5 +119,9 @@ const CountryDetails: React.FC = () => {
     </div>
   );
 };
-
+const CountryDetails: React.FC = () => (
+  <Suspense fallback={<div>Loading country details...</div>}>
+    <CountryDetailsPage />
+  </Suspense>
+);
 export default CountryDetails;
