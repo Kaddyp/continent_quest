@@ -111,7 +111,7 @@ const Country: CountryComponent = () => {
                 <Link to={`/country/${country.code}`} key={country.code}>
                   <div className="border p-4 flex items-center">
                     <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
-                      
+                      Display Flag
                     </span>                  
                     <div className='ml-12'>
                       <h3 className="font-bold italic">{country.name}</h3>
