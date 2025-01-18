@@ -1,6 +1,10 @@
-# Continent Quest
+## Continent Quest
 
-## Quick Start Localhost
+### Quick Start Vercel
+
+Open [https://continent-quest.vercel.app/](https://continent-quest.vercel.app/) to view it in the browser
+
+### Quick Start Localhost
 
 1. Get the latest version
 
@@ -23,11 +27,7 @@ npm start
 
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
-## Quick Start Vercel
-
-Open [https://continent-quest.vercel.app/](https://continent-quest.vercel.app/) to view it in the browser
-
-## Used Stack
+### Used Stack
 
 - _TypeScript_
 - _React.js_
