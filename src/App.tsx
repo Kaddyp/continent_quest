@@ -6,7 +6,7 @@ import CountryDetails from './pages/Country/CountryDetails';
 import NoPage from './pages/NoPage/NoPage';
 
 const client = new ApolloClient({
-  uri: 'https://countries.trevorblades.com',
+  uri: process.env.REACT_APP_API_URL,
   cache: new InMemoryCache(),
 });
 
