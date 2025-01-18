@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { Link } from 'react-router-dom';
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import CountryFlag from '../../components/CountryFlag';
-
-type CountryComponent = () => JSX.Element;
+import CountryCard from './CountryCard';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
+//Graphql Query
 const GET_ALL_COUNTRIES = gql`
   query GetAllCountries {
     countries {
@@ -17,7 +17,7 @@ const GET_ALL_COUNTRIES = gql`
     }
   }
 `;
-
+//Types Interface
 interface CountryQuery {
   countries: Array<{
     code: string;
@@ -29,7 +29,7 @@ interface CountryQuery {
   }>;
 }
 
-const Country: CountryComponent = () => {
+const Country: React.FC = () => {
   const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);
   const [selectedContinent, setSelectedContinent] = useState('');
   const [search, setSearch] = useState('');
@@ -44,8 +44,8 @@ const Country: CountryComponent = () => {
     new Set(data?.countries.map((country) => country.continent.name) || [])
   );
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (loading) return <Loading />;
+  if (error) return <Error message={error.message} />;
   return (
     <>
       <h1 className={`text-lg px-4 py-6 font-700`}>Country Finder</h1>
@@ -110,19 +110,9 @@ const Country: CountryComponent = () => {
 
 
         <div className="mx-auto grid items-center px-4 py-12">                    
-          <div className="grid grid-cols-4 gap-4">
-            {countries.map((country: any) => (
-              <Link to={`/country/${country.code}`} key={country.code}>
-                <div className="border p-4 flex items-center">
-                  <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
-                    <CountryFlag countryCode={country.code} width="w-4" height="h-4"/>
-                  </span>                  
-                  <div className='ml-12'>
-                    <h3 className="font-bold italic">{country.name}</h3>
-                    <p className='italic'>{country.continent.name}</p>
-                  </div>
-                </div>
-              </Link>
+          <div className="grid grid-cols-4 gap-4">            
+            {countries.map((country) => (
+              <CountryCard key={country.code} country={country}/>
             ))}
           </div>
         </div>
