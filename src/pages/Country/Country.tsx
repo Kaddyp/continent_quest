@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import CountryFlag from '../../components/CountryFlag';
 
 type CountryComponent = () => JSX.Element;
 const GET_ALL_COUNTRIES = gql`
@@ -30,8 +31,8 @@ interface CountryQuery {
 
 const Country: CountryComponent = () => {
   const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);
+  const [selectedContinent, setSelectedContinent] = useState('');
   const [search, setSearch] = useState('');
-  const [selectedContinent, setSelectedContinent] = useState('');  
 
   const countries = (data?.countries || []).filter((country) => {
     return (
@@ -114,11 +115,7 @@ const Country: CountryComponent = () => {
               <Link to={`/country/${country.code}`} key={country.code}>
                 <div className="border p-4 flex items-center">
                   <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
-                  <img
-                      src={`https://flagcdn.com/w320/${country.code.toLowerCase()}.png`}
-                      alt={`${country.name} flag`}
-                      className="w-4 h-4"
-                  />
+                    <CountryFlag countryCode={country.code} width="w-4" height="h-4"/>
                   </span>                  
                   <div className='ml-12'>
                     <h3 className="font-bold italic">{country.name}</h3>

@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
 import getSymbolFromCurrency from 'currency-symbol-map';
+import CountryFlag from "../../components/CountryFlag";
 
 const GET_COUNTRY = gql`
   query GetCountry($code: ID!) {
@@ -54,11 +55,12 @@ const CountryDetails: React.FC = () => {
         <div className="p-6">
           <div className="py-4 flex items-center">
             <span className="text-2xl p-2">
-              <img
+              {/* <img
                 src={`https://flagcdn.com/w320/${country.code.toLowerCase()}.png`}
                 alt={`${country.name} flag`}
                 className="w-8 h-8"
-              />
+              /> */}
+              <CountryFlag countryCode={country.code} width="w-8" height="h-8"/>
             </span>
           </div>
           <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
