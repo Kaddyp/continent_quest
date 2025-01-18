@@ -27,10 +27,11 @@ interface CountryQuery {
     }
   }>;
 }
+
 const Country: CountryComponent = () => {
-  const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);  
+  const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);
   const [search, setSearch] = useState('');
-  const [selectedContinent, setSelectedContinent] = useState('');
+  const [selectedContinent, setSelectedContinent] = useState('');  
 
   const countries = (data?.countries || []).filter((country) => {
     return (
@@ -42,6 +43,8 @@ const Country: CountryComponent = () => {
     new Set(data?.countries.map((country) => country.continent.name) || [])
   );
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <h1 className={`text-lg px-4 py-6 font-700`}>Country Finder</h1>
@@ -67,34 +70,34 @@ const Country: CountryComponent = () => {
                 </svg>
               </div>
               <input
-                  id="country"
-                  name="country"
-                  type="search"
-                  placeholder="Search here"              
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
-                />
+                id="country"
+                name="country"
+                type="search"
+                placeholder="Search here"              
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8 justify-end">         
             <div className="sm:col-span-3">
               <div className="grid grid-cols-1">
                 <select
-                    id="selectedContinent"
-                    name="selectedContinent"
-                    value={selectedContinent}
-                    onChange={(e) => setSelectedContinent(e.target.value)}
-                    autoComplete="continent-name"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  >
-                    <option value="">Filter by continent</option>
-                      {continents.map((continent: string) => (
-                          <option key={continent} value={continent}>
-                            {continent}
-                          </option>
-                        ))}
-                  </select>
+                  id="selectedContinent"
+                  name="selectedContinent"
+                  value={selectedContinent}
+                  onChange={(e) => setSelectedContinent(e.target.value)}
+                  autoComplete="continent-name"
+                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                >
+                  <option value="">Filter by continent</option>
+                     {continents.map((continent: string) => (
+                        <option key={continent} value={continent}>
+                          {continent}
+                        </option>
+                      ))}
+                </select>
                 <ChevronDownIcon
                   aria-hidden="true"
                   className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
@@ -107,19 +110,23 @@ const Country: CountryComponent = () => {
 
         <div className="mx-auto grid items-center px-4 py-12">                    
           <div className="grid grid-cols-4 gap-4">
-              {countries.map((country: any) => (
-                <Link to={`/country/${country.code}`} key={country.code}>
-                  <div className="border p-4 flex items-center">
-                    <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
-                      Display Flag
-                    </span>                  
-                    <div className='ml-12'>
-                      <h3 className="font-bold italic">{country.name}</h3>
-                      <p className='italic'>{country.continent.name}</p>
-                    </div>
+            {countries.map((country: any) => (
+              <Link to={`/country/${country.code}`} key={country.code}>
+                <div className="border p-4 flex items-center">
+                  <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
+                  <img
+                      src={`https://flagcdn.com/w320/${country.code.toLowerCase()}.png`}
+                      alt={`${country.name} flag`}
+                      className="w-4 h-4"
+                  />
+                  </span>                  
+                  <div className='ml-12'>
+                    <h3 className="font-bold italic">{country.name}</h3>
+                    <p className='italic'>{country.continent.name}</p>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

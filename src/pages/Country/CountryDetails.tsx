@@ -54,7 +54,11 @@ const CountryDetails: React.FC = () => {
         <div className="p-6">
           <div className="py-4 flex items-center">
             <span className="text-2xl p-2">
-              Display Flag
+              <img
+                src={`https://flagcdn.com/w320/${country.code.toLowerCase()}.png`}
+                alt={`${country.name} flag`}
+                className="w-8 h-8"
+              />
             </span>
           </div>
           <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
@@ -102,7 +106,29 @@ const CountryDetails: React.FC = () => {
           <a
             className="!font-medium !text-blue-gray-900 !transition-colors hover:!text-pink-500"
             href="/"
-          >Go Back
+          >
+            <button
+              onClick={() => navigate(-1)}
+              className="flex select-none items-center gap-2 rounded-lg py-2 text-center align-middle font-sans text-xs font-bold uppercase text-pink-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+              data-ripple-dark="true"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              Go Back
+            </button>
           </a>
         </div>
       </div>
