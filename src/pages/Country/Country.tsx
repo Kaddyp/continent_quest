@@ -3,8 +3,40 @@ import { useQuery, gql } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
-const Country: React.FC = () => {
- 
+type CountryComponent = () => JSX.Element;
+const GET_ALL_COUNTRIES = gql`
+  query GetAllCountries {
+    countries {
+      code
+      name
+      emoji      
+      continent {
+        name
+      }
+    }
+  }
+`;
+
+interface CountryQuery {
+  countries: Array<{
+    code: string;
+    name: string;
+    emoji: string;
+    continent: {
+      name: string
+    }
+  }>;
+}
+const Country: CountryComponent = () => {
+  const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);  
+  const [search, setSearch] = useState('');
+
+  const countries = (data?.countries || []).filter((country) => {
+    return (
+      country.name.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
   return (
     <>
     <h1 className={`text-lg px-4 py-6 font-700`}>Country Finder</h1>
@@ -30,13 +62,14 @@ const Country: React.FC = () => {
               </svg>
             </div>
             <input
-              id="country"
-              name="country"
-              type="search"
-              placeholder="Search here"       
-              
-              className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
-            />
+                id="country"
+                name="country"
+                type="search"
+                placeholder="Search here"              
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+              />
           </div>
         </div>
         <div className="grid grid-cols-1 grid-rows-1 gap-4 sm:gap-6 lg:gap-8 justify-end">         
@@ -63,7 +96,19 @@ const Country: React.FC = () => {
 
       <div className="mx-auto grid items-center px-4 py-12">                    
         <div className="grid grid-cols-4 gap-4">
-          
+            {countries.map((country: any) => (
+              <Link to={`/country/${country.code}`} key={country.code}>
+                <div className="border p-4 flex items-center">
+                  <span className="rounded-full border border-[#e5e7eb] text-2xl p-2">                    
+                    
+                  </span>                  
+                  <div className='ml-12'>
+                    <h3 className="font-bold italic">{country.name}</h3>
+                    <p className='italic'>{country.continent.name}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     </div>

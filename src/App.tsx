@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Country />} />
-            <Route path="/country/:id" element={<CountryDetails />} />   
+            <Route path="/country/:code" element={<CountryDetails />} />   
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
