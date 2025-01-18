@@ -1,6 +1,4 @@
-const getFlagUrl = (countryCode: string): string => {
-    return `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
-};
+import getFlagUrl from "../utils/getFlagUrl";
 interface CountryFlagProps {
     countryCode: string;
     width?: string; 
