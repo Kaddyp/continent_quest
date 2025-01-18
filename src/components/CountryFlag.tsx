@@ -11,7 +11,7 @@ const CountryFlag: React.FC<CountryFlagProps> = ({ countryCode , width = "w-8", 
     return (
         <img
         src={flagUrl}
-        alt={`Flag of ${countryCode}`}
+        alt={`Flag of ${countryCode || 'Unknown'}`}
         className={`${width} ${height}`}
         />
     );
