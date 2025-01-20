@@ -36,6 +36,13 @@ const mocks = [
 ];
 
 describe('Continents Component', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {}); // Suppress Apollo error logs
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks(); // Restore console.error after each test
+  });
 
   it('renders error state on query failure', async () => {
     const errorMocks = [
@@ -49,6 +56,7 @@ describe('Continents Component', () => {
         <Continents />
       </MockedProvider>
     );
+
     // Wait for the error message
     const errorMessage = await screen.findByText(/Error: Something went wrong!/i);
     expect(errorMessage).toBeInTheDocument();
@@ -60,9 +68,12 @@ describe('Continents Component', () => {
         <Continents />
       </MockedProvider>
     );
+
     // Wait for the data to load
     const continentNames = await screen.findAllByText(/Europe|Asia|Africa/i);
     expect(continentNames).toHaveLength(3);
+
+    // Specific check for a class (optional, based on your component's implementation)
     expect(screen.getByText('Europe')).toHaveClass('text-red-800');
   });
 });
