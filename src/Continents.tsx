@@ -2,44 +2,38 @@
 import styled from 'styled-components';
 import { useQuery, gql } from '@apollo/client';
 
-type ContinenntsComponent = () => JSX.Element;
-
-const Continents: ContinenntsComponent = () => {
-  const CONTINENTS = gql`
-    query Continents {
-      continents {
-          code,
-          name,
-          countries {
-            capital
-            currency
-          }
+const CONTINENTS = gql`
+query Continents {
+  continents {
+      code,
+      name,
+      countries {
+        capital
+        currency
       }
-    }
-  `;
-
-  interface ContinentsQuery {
-    continents: Array<{
-      name: string;
-    }>;
   }
-
-  const { loading, error, data } = useQuery<ContinentsQuery>(CONTINENTS);
-
+}
+`;
+interface ContinentsProps {
+  continents: Array<{
+    name: string;
+  }>;
+}
+const Continents: React.FC = () => {
+  const { loading, error, data } = useQuery<ContinentsProps>(CONTINENTS);
   const bold = 700;
 
-  //const isEurope = (c) => (c !== 'Europe' ? false : true);
   const isEurope = (c: string) => c === 'Europe';
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <div>
+    <>
       <h3 className={`font-${bold}`}>Continents:</h3>
-      {data?.continents.map(({ name }) => (
-        <div key={name} className={isEurope(name) ? 'text-red-800' : ''}>{name}</div>
+      {data?.continents.map(({ name, index }) => (
+        <div key={index} className={isEurope(name) ? 'text-red-800' : ''}>{name}</div>
       ))}
-    </div>
+    </>
   );
 };
 
