@@ -5,32 +5,11 @@ import CountryCard from './CountryCard';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 //Graphql Query
-const GET_ALL_COUNTRIES = gql`
-  query GetAllCountries {
-    countries {
-      code
-      name
-      emoji      
-      continent {
-        name
-      }
-    }
-  }
-`;
+import { GET_ALL_COUNTRIES } from '../../graphql/queries/countryQueries';
 //Types Interface
-interface CountryQuery {
-  countries: Array<{
-    code: string;
-    name: string;
-    emoji: string;
-    continent: {
-      name: string
-    }
-  }>;
-}
-
+import { CountriesProps } from './CountryGlobal.types';
 const Country: React.FC = () => {
-  const { loading, error, data } = useQuery<CountryQuery>(GET_ALL_COUNTRIES);
+  const { loading, error, data } = useQuery<CountriesProps>(GET_ALL_COUNTRIES);
   const [selectedContinent, setSelectedContinent] = useState('');
   const [search, setSearch] = useState('');
 

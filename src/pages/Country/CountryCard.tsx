@@ -3,14 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CountryFlag from '../../components/CountryFlag';
 // Types Interface
-interface Country {
-  code: string;
-  name: string;
-  emoji: string;
-  continent: {
-    name: string;
-  };
-}
+import { Country } from './CountryGlobal.types';
+
 const CountryCard = React.memo(({ country }: { country: Country }) => (
     <Link to={`/country/${country.code}`} key={country.code}>
       <div className="border p-4 flex items-center">

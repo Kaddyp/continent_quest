@@ -5,34 +5,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import CountryFlag from "../../components/CountryFlag";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
-
-const GET_COUNTRY = gql`
-  query GetCountry($code: ID!) {
-    country(code: $code) {
-      name
-      awsRegion
-      code
-      capital
-      emoji
-      emojiU
-      currency
-      currencies
-      native
-      phone
-      phones
-      subdivisions {
-        name
-      }
-      continent {
-        name
-      }
-      languages {
-        name
-      }
-    }
-  }
-`;
-
+import { GET_COUNTRY } from "../../graphql/queries/countryQueries";
 const CountryDetailsPage: React.FC = () => {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();

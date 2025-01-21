@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Country from './Country/Country'; 
+import Country from '../Country/Country'; 
 import { gql } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
-import Loading from '../components/Loading';
 
 const GET_ALL_COUNTRIES = gql`
   query GetAllCountries {
