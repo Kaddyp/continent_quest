@@ -29,6 +29,10 @@ npm start
 
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
+
+![demo](https://github.com/Kaddyp/continent_quest/blob/main/video.gif)
+
+
 ### Used Stack
 
 - _TypeScript_
